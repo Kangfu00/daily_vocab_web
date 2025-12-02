@@ -1,42 +1,84 @@
+// src/components/BarChart.tsx
 "use client";
 
-import { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+// ต้องติดตั้ง Chart.js dependencies: npm install chart.js react-chartjs-2
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+import { SummaryResponse } from '@/types'; // นำเข้า Type
 
-export default function BarChart() {
-    const [data, setData] = useState<{ name: string; value: number }[]>([]);
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
 
-    useEffect(() => {
-        const history = JSON.parse(localStorage.getItem('wordHistory') || '[]');
-        const distribution = {
-            Beginner: 0,
-            Intermediate: 0,
-            Advanced: 0,
-        };
+type Props = {
+    distribution: SummaryResponse['level_distribution'];
+};
 
-        history.forEach((item: any) => {
-            if (distribution[item.difficulty] !== undefined) {
-                distribution[item.difficulty]++;
-            }
-        });
+export default function BarChart({ distribution }: Props) {
+    const data = {
+        labels: ['Beginner', 'Intermediate', 'Advanced'],
+        datasets: [
+            {
+                label: 'Practice Count',
+                data: [
+                    distribution.Beginner,
+                    distribution.Intermediate,
+                    distribution.Advanced,
+                ],
+                backgroundColor: [
+                    '#10B981', // Green (Success)
+                    '#F59E0B', // Yellow (Warning)
+                    '#EF4444', // Red (Danger)
+                ],
+                borderColor: [
+                    '#059669',
+                    '#D97706',
+                    '#DC2626',
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
 
-        setData([
-            { name: 'Beginner', value: distribution.Beginner },
-            { name: 'Intermediate', value: distribution.Intermediate },
-            { name: 'Advanced', value: distribution.Advanced },
-        ]);
-    }, []);
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false,
+            },
+            title: {
+                display: false,
+            },
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                min: 0,
+                ticks: {
+                    stepSize: 1, // บังคับให้แสดงเป็นเลขจำนวนเต็ม
+                }
+            },
+        },
+    };
 
     return (
-        <div className="h-64 bg-gray-50 p-4 rounded-lg flex justify-around items-end border border-gray-200">
-            {data.map((item) => (
-                <div key={item.name} className="flex flex-col items-center h-full justify-end">
-                    <div
-                        className="w-12 bg-info rounded-t-lg shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out"
-                        style={{ height: `${(item.value / (Math.max(...data.map(d => d.value)) || 1)) * 90}%` }} // 90% to leave space for label
-                    ></div>
-                    <span className="text-sm mt-2 text-gray-600 font-medium">{item.name} ({item.value})</span>
-                </div>
-            ))}
+        <div className="h-64">
+            <Bar data={data} options={options} />
         </div>
     );
 }
+// อย่าลืมติดตั้ง Chart.js ใน Next.js project ด้วย: npm install chart.js react-chartjs-2
