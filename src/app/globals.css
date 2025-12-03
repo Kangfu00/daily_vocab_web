@@ -1,3 +1,5 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ลบทุกอย่างข้างล่างนี้ทิ้งให้หมดครับ ไม่ต้องเหลือ :root หรือ body {} แบบเดิม */

@@ -1,13 +1,19 @@
 type Props = {
     title: string;
     value: string;
+    icon?: string;
 }
 
-export default function StatsCard({ title, value }: Props) {
+export default function StatsCard({ title, value, icon }: Props) {
     return (
-        <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center justify-center transform hover:scale-105 transition-transform duration-300 ease-in-out">
-            <h3 className="text-gray-500 text-base font-medium mb-2">{title}</h3>
-            <p className="text-4xl font-bold text-primary">{value}</p>
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center space-x-4">
+            <div className="h-12 w-12 bg-indigo-50 rounded-xl flex items-center justify-center text-2xl">
+                {icon || '📊'}
+            </div>
+            <div>
+                <p className="text-slate-500 text-sm font-medium">{title}</p>
+                <p className="text-3xl font-bold text-slate-900">{value}</p>
+            </div>
         </div>
     )
 }

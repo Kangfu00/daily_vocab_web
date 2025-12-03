@@ -2,19 +2,19 @@ import Link from 'next/link';
 
 export default function Header() {
     return (
-        <header className="bg-primary text-white p-4 shadow-lg">
-            <nav className="container mx-auto flex justify-between items-center">
-                <Link href="/" className="text-2xl font-bold tracking-wide">
-                    Daily Vocab
+        <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+            <nav className="container mx-auto px-6 h-16 flex justify-between items-center">
+                <Link href="/" className="text-xl font-black text-indigo-600 flex items-center gap-2">
+                    <span>Worddee.ai</span>
                 </Link>
-                <ul className="flex space-x-6">
+                <ul className="flex space-x-8">
                     <li>
-                        <Link href="/" className="hover:text-secondary transition duration-200 ease-in-out text-lg">
+                        <Link href="/" className="text-slate-600 hover:text-indigo-600 font-medium transition-colors">
                             Challenge
                         </Link>
                     </li>
                     <li>
-                        <Link href="/dashboard" className="hover:text-secondary transition duration-200 ease-in-out text-lg">
+                        <Link href="/dashboard" className="text-slate-600 hover:text-indigo-600 font-medium transition-colors">
                             Dashboard
                         </Link>
                     </li>
